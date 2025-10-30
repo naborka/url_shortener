@@ -3,6 +3,7 @@ package natera.task.local.url_shortener.api.dto;
 import java.time.Instant;
 
 public class UrlMetricsResponse {
+    private Long id;
     private String shortCode;
     private String originalUrl;
     private Long clickCount;
@@ -11,11 +12,20 @@ public class UrlMetricsResponse {
     public UrlMetricsResponse() {
     }
 
-    public UrlMetricsResponse(String shortCode, String originalUrl, Long clickCount, Instant lastAccessedDate) {
+    public UrlMetricsResponse(Long id, String shortCode, String originalUrl, Long clickCount, Instant lastAccessedDate) {
+        this.id = id;
         this.shortCode = shortCode;
         this.originalUrl = originalUrl;
         this.clickCount = clickCount;
         this.lastAccessedDate = lastAccessedDate;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getShortCode() {

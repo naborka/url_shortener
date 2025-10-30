@@ -28,6 +28,7 @@ public class MetricsService implements IMetricsService {
         Page<ShortUrl> urlPage = shortUrlRepository.findAll(pageable);
         List<UrlMetricsResponse> responses = urlPage.getContent().stream()
                 .map(url -> new UrlMetricsResponse(
+                        url.getId(),
                         url.getShortCode(),
                         url.getOriginalUrl(),
                         url.getClickCount(),
