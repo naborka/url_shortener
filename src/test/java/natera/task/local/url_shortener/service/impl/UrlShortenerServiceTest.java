@@ -19,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import natera.task.local.url_shortener.api.dto.CreateShortUrlRequest;
 import natera.task.local.url_shortener.api.dto.CreateShortUrlResponse;
+import natera.task.local.url_shortener.api.exception.ShortUrlNotFoundException;
 import natera.task.local.url_shortener.data.model.ShortUrl;
 import natera.task.local.url_shortener.data.repository.ShortUrlRepository;
 
@@ -70,7 +71,7 @@ class UrlShortenerServiceTest {
         when(shortUrlRepository.findByShortCode(shortCode)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> urlShortenerService.getOriginalUrl(shortCode))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ShortUrlNotFoundException.class)
                 .hasMessage("short code not found: " + shortCode);
         verify(shortUrlRepository, never()).incrementClickCountAndSetLastAccessedDate(any(Long.class), any(Instant.class));
     }

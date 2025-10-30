@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import natera.task.local.url_shortener.api.dto.CreateShortUrlRequest;
 import natera.task.local.url_shortener.api.dto.CreateShortUrlResponse;
+import natera.task.local.url_shortener.api.exception.ShortUrlNotFoundException;
 import natera.task.local.url_shortener.data.model.ShortUrl;
 import natera.task.local.url_shortener.data.repository.ShortUrlRepository;
 import natera.task.local.url_shortener.service.IUrlShortenerService;
@@ -47,7 +48,7 @@ public class UrlShortenerService implements IUrlShortenerService {
     public String getOriginalUrl(String shortCode) {
         Optional<ShortUrl> optionalShortUrl = shortUrlRepository.findByShortCode(shortCode);
         if (optionalShortUrl.isEmpty()) {
-            throw new IllegalArgumentException("short code not found: " + shortCode);
+            throw new ShortUrlNotFoundException("short code not found: " + shortCode);
         }
         ShortUrl shortUrl = optionalShortUrl.get();
         shortUrlRepository.incrementClickCountAndSetLastAccessedDate(shortUrl.getId(), Instant.now());

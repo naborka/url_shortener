@@ -5,6 +5,7 @@ COPY gradle/wrapper/ gradle/wrapper/
 RUN chmod +x gradlew
 COPY build.gradle settings.gradle ./
 COPY src/ src/
+COPY build/libs/*.jar app.jar
 
 RUN ./gradlew build --no-daemon -x test
 
