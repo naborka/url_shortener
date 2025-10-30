@@ -1,6 +1,11 @@
 package natera.task.local.url_shortener.api.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class CreateShortUrlRequest {
+    @NotBlank
+    @Size(max = 1000)
     private String originalUrl;
 
     public CreateShortUrlRequest() {

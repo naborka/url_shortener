@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import natera.task.local.url_shortener.api.dto.CreateShortUrlRequest;
 import natera.task.local.url_shortener.api.dto.CreateShortUrlResponse;
 import natera.task.local.url_shortener.api.dto.UrlMetricsResponse;
@@ -34,7 +35,7 @@ public class UrlShortenerController {
     }
 
     @PostMapping
-    public ResponseEntity<CreateShortUrlResponse> createShortUrl(@RequestBody CreateShortUrlRequest createRequest) {
+    public ResponseEntity<CreateShortUrlResponse> createShortUrl(@Valid @RequestBody CreateShortUrlRequest createRequest) {
         CreateShortUrlResponse response = urlShortenerService.createShortUrl(createRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
