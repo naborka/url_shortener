@@ -22,7 +22,7 @@ import natera.task.local.url_shortener.service.IMetricsService;
 import natera.task.local.url_shortener.service.IUrlShortenerService;
 
 @RestController
-@RequestMapping("/api/urls")
+@RequestMapping("/v1/api/urls")
 public class UrlShortenerController {
 
     private final IUrlShortenerService urlShortenerService;
