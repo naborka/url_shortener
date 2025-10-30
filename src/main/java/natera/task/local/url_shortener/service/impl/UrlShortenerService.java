@@ -27,20 +27,19 @@ public class UrlShortenerService implements IUrlShortenerService {
     public CreateShortUrlResponse createShortUrl(CreateShortUrlRequest request) {
         String originalUrl = request.getOriginalUrl();
         String shortCode = generateUniqueShortCode();
-        
+
         ShortUrl shortUrl = new ShortUrl();
         shortUrl.setShortCode(shortCode);
         shortUrl.setOriginalUrl(originalUrl);
         shortUrl.setCreationDate(Instant.now());
         shortUrl.setLastAccessedDate(null);
         shortUrl.setClickCount(0L);
-        
+
         ShortUrl savedUrl = shortUrlRepository.save(shortUrl);
-        
+
         return new CreateShortUrlResponse(
-            savedUrl.getShortCode(),
-            savedUrl.getOriginalUrl()
-        );
+                savedUrl.getShortCode(),
+                savedUrl.getOriginalUrl());
     }
 
     @Override
@@ -53,6 +52,14 @@ public class UrlShortenerService implements IUrlShortenerService {
         ShortUrl shortUrl = optionalShortUrl.get();
         shortUrlRepository.incrementClickCountAndSetLastAccessedDate(shortUrl.getId(), Instant.now());
         return shortUrl.getOriginalUrl();
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        if (shortUrlRepository.existsById(id)) {
+            shortUrlRepository.deleteById(id);
+        }
     }
 
     private String generateUniqueShortCode() {
