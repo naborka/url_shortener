@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class ShortCodeGenerator {
     
-    private static final String SYMBOLS = "abcdefghijklmnopqrstuvwxyz";
+    private static final String SYMBOLS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
     private static final Random random = new Random();
 
     private ShortCodeGenerator() {
