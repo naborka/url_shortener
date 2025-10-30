@@ -39,8 +39,7 @@ public class UrlShortenerService implements IUrlShortenerService {
         
         return new CreateShortUrlResponse(
             savedUrl.getShortCode(),
-            savedUrl.getOriginalUrl(),
-            savedUrl.getCreationDate()
+            savedUrl.getOriginalUrl()
         );
     }
 
