@@ -1,7 +1,5 @@
 package natera.task.local.url_shortener.api.controller;
 
-import java.time.Duration;
-
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,9 +22,9 @@ public class AnalyticsController {
 
     @GetMapping("/top")
     public ResponseEntity<Page<TopUrlAnalytics>> getTopUrls(
-            @RequestParam(required = false) Duration window,
+            @RequestParam(required = false) Integer days,
             @RequestParam(defaultValue = "10") int limit) {
-        Page<TopUrlAnalytics> topUrls = analyticsService.getTopUrls(limit, window);
+        Page<TopUrlAnalytics> topUrls = analyticsService.getTopUrls(limit, days);
         return ResponseEntity.ok(topUrls);
     }
 }

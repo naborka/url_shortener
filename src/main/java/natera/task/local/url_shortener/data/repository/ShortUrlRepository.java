@@ -20,5 +20,6 @@ public interface ShortUrlRepository extends JpaRepository<ShortUrl, Long> {
     @Query("UPDATE ShortUrl s SET s.clickCount = s.clickCount + 1, s.lastAccessedDate = :now WHERE s.id = :id")
     int incrementClickCountAndSetLastAccessedDate(@Param("id") Long id, @Param("now") Instant now);
 
-    Page<ShortUrl> findTopByLastAccessedDateAfterOrderByClickCountDesc(Instant since, Pageable pageable);
+    @Query(value = "SELECT * FROM short_url WHERE last_accessed_date > :since ORDER BY click_count DESC", nativeQuery = true)
+    Page<ShortUrl> findTop(Instant since, Pageable pageable);
 }

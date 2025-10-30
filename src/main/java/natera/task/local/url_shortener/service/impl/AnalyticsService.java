@@ -1,7 +1,7 @@
 package natera.task.local.url_shortener.service.impl;
 
-import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,18 +23,18 @@ public class AnalyticsService implements IAnalyticsService {
     }
 
     @Override
-    public Page<TopUrlAnalytics> getTopUrls(int limit, Duration window) {
-        Instant since = windowToSince(window);
+    public Page<TopUrlAnalytics> getTopUrls(int limit, Integer days) {
+        Instant since = windowToSince(days);
         Pageable pageable = PageRequest.of(0, limit);
-        Page<ShortUrl> urls = shortUrlRepository.findTopByLastAccessedDateAfterOrderByClickCountDesc(since, pageable);
+        Page<ShortUrl> urls = shortUrlRepository.findTop(since, pageable);
         return urls.map(this::mapToTopUrlAnalytics);
     }
 
-    private Instant windowToSince(Duration window) {
-        if (window == null) {
-            return Instant.MIN;
+    private Instant windowToSince(Integer days) {
+        if (days == null) {
+            return Instant.EPOCH;
         }
-        return Instant.now().minus(window);
+        return Instant.now().minus(days * 86400L, ChronoUnit.SECONDS);
     }
 
     private TopUrlAnalytics mapToTopUrlAnalytics(ShortUrl shortUrl) {
