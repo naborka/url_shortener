@@ -43,6 +43,18 @@ public class UrlShortenerService implements IUrlShortenerService {
         );
     }
 
+    @Override
+    @Transactional
+    public String getOriginalUrl(String shortCode) {
+        Optional<ShortUrl> optionalShortUrl = shortUrlRepository.findByShortCode(shortCode);
+        if (optionalShortUrl.isEmpty()) {
+            throw new IllegalArgumentException("short code not found: " + shortCode);
+        }
+        ShortUrl shortUrl = optionalShortUrl.get();
+        shortUrlRepository.incrementClickCountAndSetLastAccessedDate(shortUrl.getId(), Instant.now());
+        return shortUrl.getOriginalUrl();
+    }
+
     private String generateUniqueShortCode() {
         for (int i = 0; i < 10; i++) {
             String shortCode = ShortCodeGenerator.generateShortCode();
